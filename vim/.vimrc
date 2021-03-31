@@ -228,12 +228,11 @@ noremap <silent> <F6> <esc>:Autoformat<cr>
 nmap <F2> :NERDTreeToggle<cr>
 
 """ airline
-if g:isGUI
   let g:airline_theme='onedark'
   let g:airline_powerline_fonts=1
+if g:isGUI
   set guifont=JetBrainsMono_NF:h11
   set rop=type:directx,gamma:2,contrast:1,level:10,geom:1,renmode:5,taamode:1
-  colorscheme one
   set linespace=6
 endif
 
