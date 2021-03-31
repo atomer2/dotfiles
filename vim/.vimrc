@@ -11,9 +11,9 @@ endif
 
 
 " ===
-" === Auto load plug.vim for first time uses. 
+" === Auto load plug.vim for first time uses.
 " ===
-if g:isnvim 
+if g:isnvim
   if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
           \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -55,16 +55,16 @@ if g:isGUI
   set guioptions-=r
   set guioptions-=L
   map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
-    \set guioptions-=m <Bar>
-    \set guioptions-=T <Bar>
-    \set guioptions-=r <Bar>
-    \set guioptions-=L <Bar>
-  \else <Bar>
-    \set guioptions+=m <Bar>
-    \set guioptions+=T <Bar>
-    \set guioptions+=r <Bar>
-    \set guioptions+=L <Bar>
-  \endif<cr>
+        \set guioptions-=m <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=r <Bar>
+        \set guioptions-=L <Bar>
+        \else <Bar>
+        \set guioptions+=m <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=r <Bar>
+        \set guioptions+=L <Bar>
+        \endif<cr>
 endif
 
 """ vim-plug
@@ -96,6 +96,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/vim-easy-align'
 Plug 'ryanoasis/vim-devicons'
 Plug 'rafi/awesome-vim-colorschemes'
+Plug 'tpope/vim-fugitive'
+Plug 'nikvdp/neomux'
+""" <PlugEnd>
 call plug#end()
 
 """ Basic settings.
@@ -133,7 +136,7 @@ set writebackup
 set nobackup
 "set cc=80
 "
-colorscheme solarized8 
+colorscheme solarized8
 
 " Delete trailing spaces.
 nnoremap cS :%s/\s\+$//g<cr>:noh<cr>
@@ -175,7 +178,7 @@ if g:isGUI
 endif
 
 " 自动切换目录为当前编辑文件所在目录
- au BufRead,BufNewFile,BufEnter * cd %:p:h
+au BufRead,BufNewFile,BufEnter * cd %:p:h
 
 if (g:iswindows && g:isGUI)
   " 解决菜单乱码
@@ -195,7 +198,7 @@ nnoremap <F4> :A<cr>
 " ====  vimwiki
 " ====
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 " ====
 " ==== Tagbar
@@ -228,8 +231,8 @@ noremap <silent> <F6> <esc>:Autoformat<cr>
 nmap <F2> :NERDTreeToggle<cr>
 
 """ airline
-  let g:airline_theme='onedark'
-  let g:airline_powerline_fonts=1
+let g:airline_theme='onedark'
+let g:airline_powerline_fonts=1
 if g:isGUI
   set guifont=JetBrainsMono_NF:h11
   set rop=type:directx,gamma:2,contrast:1,level:10,geom:1,renmode:5,taamode:1
