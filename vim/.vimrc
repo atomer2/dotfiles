@@ -1,25 +1,45 @@
-" Vim with all enhancements
-source $VIMRUNTIME/vimrc_example.vim
+let g:isnvim = 0
+
+if has('nvim')
+  let g:isnvim = 1
+endif
+
+if g:isnvim == 0
+  " Vim with all enhancements
+  source $VIMRUNTIME/vimrc_example.vim
+endif
+
 
 " ===
-" === Auto load plug.vim for first time uses. Won't work on windows, stupid ~
-" === sign
+" === Auto load plug.vim for first time uses. 
 " ===
-"if empty(glob('~/.vim/autoload/plug.vim'))
-  "silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    "\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  "au VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
+if g:isnvim 
+  if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    au VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+else
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    au VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+endif
 
 let g:iswindows = 0
 let g:islinux = 0
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
   let g:iswindows = 1
-  let g:vimrcname = '_vimrc'
+  let g:main_config_file = '_vimrc'
 else
   let g:islinux = 1
-  let g:vimrcname = '.vimrc'
+  let g:main_config_file = '.vimrc'
+endif
+
+if g:isnvim
+  let g:main_config_file = 'init.vim'
 endif
 
 if has("gui_running")
@@ -48,7 +68,11 @@ if g:isGUI
 endif
 
 """ vim-plug
-call plug#begin("~/.vim/plugged")
+if g:isnvim
+  call plug#begin(stdpath('data').'/plugged')
+else
+  call plug#begin("~/.vim/plugged")
+endif
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
@@ -59,7 +83,7 @@ Plug 'mhinz/vim-startify'
 Plug 'vimwiki/vimwiki'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-"Plug 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Chiel92/vim-autoformat'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -69,9 +93,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'kien/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'iamcco/markdown-preview.nvim', {'do': { -> mkdp#ulti#install() } }
 Plug 'junegunn/vim-easy-align'
 Plug 'ryanoasis/vim-devicons'
+Plug 'rafi/awesome-vim-colorschemes'
 call plug#end()
 
 """ Basic settings.
@@ -104,10 +128,12 @@ set ignorecase
 set smartcase
 
 " highlight current line
-"set cursorline
+set cursorline
 set writebackup
 set nobackup
 "set cc=80
+"
+colorscheme solarized8 
 
 " Delete trailing spaces.
 nnoremap cS :%s/\s\+$//g<cr>:noh<cr>
@@ -131,7 +157,7 @@ noremap <c-l> <c-w>l
 
 "<F7> open vim configuration file
 function! ToggleVimrcWindow()
-  let vimrcwinnr = bufwinnr(g:vimrcname)
+  let vimrcwinnr = bufwinnr(g:main_config_file)
   if(vimrcwinnr != -1 && winnr("$") != 1)
     exe "close ".vimrcwinnr
   else
@@ -171,97 +197,6 @@ nnoremap <F4> :A<cr>
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
-
-
-" ====
-" ==== markdown-preview.nvim
-" ====
-" set to 1, nvim will open the preview window after entering the markdown buffer
-" default: 0
-let g:mkdp_auto_start = 0
-
-" set to 1, the nvim will auto close current preview window when change
-" from markdown buffer to another buffer
-" default: 1
-let g:mkdp_auto_close = 1
-
-" set to 1, the vim will refresh markdown when save the buffer or
-" leave from insert mode, default 0 is auto refresh markdown as you edit or
-" move the cursor
-" default: 0
-let g:mkdp_refresh_slow = 0
-
-" set to 1, the MarkdownPreview command can be use for all files,
-" by default it can be use in markdown file
-" default: 0
-let g:mkdp_command_for_global = 0
-
-" set to 1, preview server available to others in your network
-" by default, the server listens on localhost (127.0.0.1)
-" default: 0
-let g:mkdp_open_to_the_world = 0
-
-" use custom IP to open preview page
-" useful when you work in remote vim and preview on local browser
-" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
-" default empty
-let g:mkdp_open_ip = ''
-
-" specify browser to open preview page
-" default: ''
-let g:mkdp_browser = ''
-
-" set to 1, echo preview page url in command line when open preview page
-" default is 0
-let g:mkdp_echo_preview_url = 0
-
-" a custom vim function name to open preview page
-" this function will receive url as param
-" default is empty
-let g:mkdp_browserfunc = ''
-
-" options for markdown render
-" mkit: markdown-it options for render
-" katex: katex options for math
-" uml: markdown-it-plantuml options
-" maid: mermaid options
-" disable_sync_scroll: if disable sync scroll, default 0
-" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
-"   middle: mean the cursor position alway show at the middle of the preview page
-"   top: mean the vim top viewport alway show at the top of the preview page
-"   relative: mean the cursor position alway show at the relative positon of the preview page
-" hide_yaml_meta: if hide yaml metadata, default is 1
-" sequence_diagrams: js-sequence-diagrams options
-let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {}
-    \ }
-
-" use a custom markdown style must be absolute path
-let g:mkdp_markdown_css = ''
-
-" use a custom highlight style must absolute path
-let g:mkdp_highlight_css = ''
-
-" use a custom port to start server or random for empty
-let g:mkdp_port = ''
-
-" preview page title
-" ${name} will be replace with the file name
-let g:mkdp_page_title = '「${name}」'"
-
-" example
-nmap <F5> <Plug>MarkdownPreview
-" nmap <M-s> <Plug>MarkdownPreviewStop
-" nmap <C-p> <Plug>MarkdownPreviewToggle
-
-
 " ====
 " ==== Tagbar
 " ====
@@ -300,8 +235,6 @@ if g:isGUI
   set rop=type:directx,gamma:2,contrast:1,level:10,geom:1,renmode:5,taamode:1
   colorscheme one
   set linespace=6
-else
-  colorscheme torte
 endif
 
 """ UltiSnips
