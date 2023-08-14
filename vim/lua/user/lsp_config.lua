@@ -19,5 +19,8 @@ lspconfig.lua_ls.setup {
 lspconfig.clangd.setup {
     on_attach = on_attach
 }
+lspconfig.pylsp.setup {
+    on_attach = on_attach
+}
 -- lspconfig.clang_format.setup {}
 
