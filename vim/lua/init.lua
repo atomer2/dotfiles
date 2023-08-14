@@ -14,3 +14,5 @@ require 'user.nvim-tree'
 require 'user.lsp_config'
 --require 'user.bufferline'
 --require 'user.lualine'
+require 'user.colorscheme'
+

@@ -1,4 +1,4 @@
-packer = require 'packer'
+local packer = require 'packer'
 packer.init{
   opt_defalut = true,
   display ={
@@ -45,11 +45,12 @@ packer.startup(function()
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
   use {
-      'nvim-treesitter/nvim-treesitter', 
+      'nvim-treesitter/nvim-treesitter',
       -- run = ':TSUpdate', 
   }
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig'
+  use 'olimorris/onedarkpro.nvim'
 end)
 
