@@ -52,5 +52,7 @@ packer.startup(function()
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig'
   use 'olimorris/onedarkpro.nvim'
+  use 'scrooloose/nerdcommenter'
+  use 'vim-scripts/bufexplorer.zip'
 end)
 
