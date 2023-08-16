@@ -1,1 +1,1 @@
-vim.keymap.set("n", "<leader>\\", "<cmd>noh<cr>" , {noremap = true})
+vim.keymap.set("", "<leader>\\", "<cmd>noh<cr>" , {noremap = true})
