@@ -54,5 +54,6 @@ packer.startup(function()
   use 'olimorris/onedarkpro.nvim'
   use 'scrooloose/nerdcommenter'
   use 'vim-scripts/bufexplorer.zip'
+  use 'mg979/vim-visual-multi'
 end)
 
