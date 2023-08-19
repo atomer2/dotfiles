@@ -22,5 +22,8 @@ lspconfig.clangd.setup {
 lspconfig.pylsp.setup {
     on_attach = on_attach
 }
+lspconfig.rust_analyzer.setup {
+    on_attach = on_attach
+}
 -- lspconfig.clang_format.setup {}
 

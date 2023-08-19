@@ -7,3 +7,8 @@ end
 nvim_tree.setup(
 
 )
+
+-- toggle keymap
+vim.keymap.set('n', '<F2>', ':NvimTreeToggle<CR>', {
+    noremap = true
+})
